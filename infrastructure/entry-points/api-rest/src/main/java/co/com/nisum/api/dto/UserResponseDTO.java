@@ -1,4 +1,5 @@
-package co.com.nisum.model.user;
+package co.com.nisum.api.dto;
+
 import lombok.*;
 
 import java.util.Date;
@@ -9,12 +10,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class User {
+public class UserResponseDTO {
     private String id;
     private String name;
     private String email;
     private String password;
-    private List<Phone> phones;
+    private List<PhoneDTO> phones;
     private Date created;
     private Date modified;
     private Date lastLogin;

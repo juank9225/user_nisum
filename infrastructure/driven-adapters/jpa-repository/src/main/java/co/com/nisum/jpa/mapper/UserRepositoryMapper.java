@@ -6,10 +6,12 @@ import co.com.nisum.model.user.Phone;
 import co.com.nisum.model.user.User;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Component
-public class UserMapper {
+public class UserRepositoryMapper {
 
     public static User userEntityToUser(UserEntity userEntitys){
         return User.builder().id(userEntitys.getId())
@@ -35,15 +37,15 @@ public class UserMapper {
 
     public static UserEntity userToUserEntity(User user){
         var userEntity = UserEntity.builder()
-                .id(user.getId())
+                .id(UUID.randomUUID().toString())
                 .name(user.getName())
                 .email(user.getEmail())
                 .password(user.getPassword())
-                .created(user.getCreated())
-                .modified(user.getModified())
-                .lastLogin(user.getLastLogin())
-                .token(user.getToken())
-                .isActive(user.getIsActive()).build();
+                .created(new Date())
+                .modified(new Date())
+                .lastLogin(new Date())
+                .token(UUID.randomUUID().toString())
+                .isActive(true).build();
         userEntity.setPhones(phonesModelToEntity(user.getPhones(),userEntity));
         return userEntity;
     }

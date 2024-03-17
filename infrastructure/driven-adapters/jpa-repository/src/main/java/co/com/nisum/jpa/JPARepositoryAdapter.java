@@ -2,7 +2,7 @@ package co.com.nisum.jpa;
 
 import co.com.nisum.jpa.entity.UserEntity;
 import co.com.nisum.jpa.helper.AdapterOperations;
-import co.com.nisum.jpa.mapper.UserMapper;
+import co.com.nisum.jpa.mapper.UserRepositoryMapper;
 import co.com.nisum.model.user.User;
 import co.com.nisum.model.user.gateways.UserGatewayRepository;
 import org.reactivecommons.utils.ObjectMapper;
@@ -21,18 +21,18 @@ implements UserGatewayRepository
          *  super(repository, mapper, d -> mapper.mapBuilder(d,ObjectModel.ObjectModelBuilder.class).build());
          *  Or using mapper.map with the class of the object model
          */
-        super(repository, mapper, UserMapper::userEntityToUser);
+        super(repository, mapper, UserRepositoryMapper::userEntityToUser);
     }
 
     @Override
     public User saveUser(User user) {
-        var userEntity = repository.save(UserMapper.userToUserEntity(user));
-        return UserMapper.userEntityToUser(userEntity);
+        var userEntity = repository.save(UserRepositoryMapper.userToUserEntity(user));
+        return UserRepositoryMapper.userEntityToUser(userEntity);
     }
 
     @Override
     public List<User> getUser() {
         List<UserEntity> usersEntity = (List<UserEntity>) repository.findAll();
-        return usersEntity.stream().map(UserMapper::userEntityToUser).toList();
+        return usersEntity.stream().map(UserRepositoryMapper::userEntityToUser).toList();
     }
 }
