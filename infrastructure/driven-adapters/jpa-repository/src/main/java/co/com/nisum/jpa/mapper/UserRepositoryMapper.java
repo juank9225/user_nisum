@@ -66,6 +66,22 @@ public class UserRepositoryMapper {
         return userEntity;
     }
 
+    public static UserEntity userToDisableToUserEntity(User existingUser){
+        var userEntity = UserEntity.builder()
+                .id(existingUser.getId())
+                .name(existingUser.getName())
+                .email(existingUser.getEmail())
+                .password(existingUser.getPassword())
+                .created(existingUser.getCreated())
+                .modified(new Date())
+                .lastLogin(new Date())
+                .token(existingUser.getToken())
+                .isActive(false)
+                .build();
+        userEntity.setPhones(phonesModelToEntity(existingUser.getPhones(), userEntity));
+        return userEntity;
+    }
+
     private static List<PhoneEntity> phonesModelToEntity(List<Phone> phones, UserEntity userEntity){
         return phones.stream().map(phone -> PhoneEntity.builder()
                 .number(phone.getNumber())

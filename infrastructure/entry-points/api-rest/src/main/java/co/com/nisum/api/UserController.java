@@ -85,6 +85,16 @@ public class UserController {
         return new ResponseEntity<>(UserMapper.userToUserResponse(response), HttpStatus.OK);
     }
 
+    @PutMapping(path = "/disable/{email}")
+    public ResponseEntity<UserResponseDTO> disableUser(@PathVariable("email") String email,
+                                                   @RequestHeader("token") String token){
+        User response = null;
+        if (jwtUtil.validateToken(token)){
+            response = userUseCase.disableUser(email);
+        }
+        return new ResponseEntity<>(UserMapper.userToUserResponse(response), HttpStatus.OK);
+    }
+
     @GetMapping("/token")
     public ResponseEntity<TokenDTO> getToken(
             @RequestHeader("Secret") String secret) {

@@ -40,4 +40,12 @@ public class UserUseCase {
         }
         return userGatewayRepository.updateUser(user,existingUser);
     }
+
+    public User disableUser(String email){
+        User existingUser = getUser(email);
+        if (existingUser==null){
+            throw new BadRequestException(EnumError.ERROR_404.getCodigo(),EnumError.ERROR_404.getMesage());
+        }
+        return userGatewayRepository.disableUser(existingUser);
+    }
 }

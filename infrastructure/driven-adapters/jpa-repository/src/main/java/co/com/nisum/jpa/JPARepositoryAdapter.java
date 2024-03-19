@@ -42,4 +42,12 @@ implements UserGatewayRepository
         var userUpdate = repository.save(UserRepositoryMapper.userToUpdateToUserEntity(user,existingUser));
         return UserRepositoryMapper.userEntityToUser(userUpdate);
     }
+
+    @Override
+    public User disableUser(User user) {
+        user = getUserEmail(user.getEmail().toString());
+        var response = UserRepositoryMapper.userToDisableToUserEntity(user);
+        var responseUpdate = repository.save(response);
+        return UserRepositoryMapper.userEntityToUser(responseUpdate);
+    }
 }

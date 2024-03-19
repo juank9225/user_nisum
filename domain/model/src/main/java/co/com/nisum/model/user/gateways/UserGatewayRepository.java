@@ -9,4 +9,5 @@ public interface UserGatewayRepository {
     List<User> getUsers();
     User getUserEmail(String email);
     User updateUser(User user, User existingUser);
+    User disableUser(User user);
 }

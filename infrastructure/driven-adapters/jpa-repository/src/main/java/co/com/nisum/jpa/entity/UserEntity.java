@@ -1,5 +1,6 @@
 package co.com.nisum.jpa.entity;
 
+import co.com.nisum.model.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
