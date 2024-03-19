@@ -50,6 +50,22 @@ public class UserRepositoryMapper {
         return userEntity;
     }
 
+    public static UserEntity userToUpdateToUserEntity(User user, User existingUser){
+        var userEntity = UserEntity.builder()
+                .id(existingUser.getId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .password(user.getPassword())
+                .created(existingUser.getCreated())
+                .modified(new Date())
+                .lastLogin(new Date())
+                .token(existingUser.getToken())
+                .isActive(true)
+                .build();
+        userEntity.setPhones(phonesModelToEntity(user.getPhones(), userEntity));
+        return userEntity;
+    }
+
     private static List<PhoneEntity> phonesModelToEntity(List<Phone> phones, UserEntity userEntity){
         return phones.stream().map(phone -> PhoneEntity.builder()
                 .number(phone.getNumber())

@@ -6,5 +6,7 @@ import java.util.List;
 
 public interface UserGatewayRepository {
     User saveUser(User user);
-    List<User> getUser();
+    List<User> getUsers();
+    User getUserEmail(String email);
+    User updateUser(User user, User existingUser);
 }

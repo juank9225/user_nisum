@@ -16,11 +16,6 @@ implements UserGatewayRepository
 {
 
     public JPARepositoryAdapter(JPARepository repository, ObjectMapper mapper) {
-        /**
-         *  Could be use mapper.mapBuilder if your domain model implement builder pattern
-         *  super(repository, mapper, d -> mapper.mapBuilder(d,ObjectModel.ObjectModelBuilder.class).build());
-         *  Or using mapper.map with the class of the object model
-         */
         super(repository, mapper, UserRepositoryMapper::userEntityToUser);
     }
 
@@ -31,8 +26,20 @@ implements UserGatewayRepository
     }
 
     @Override
-    public List<User> getUser() {
+    public List<User> getUsers() {
         List<UserEntity> usersEntity = (List<UserEntity>) repository.findAll();
         return usersEntity.stream().map(UserRepositoryMapper::userEntityToUser).toList();
+    }
+
+    @Override
+    public User getUserEmail(String email) {
+        var user = repository.findById(email);
+        return user.map(UserRepositoryMapper::userEntityToUser).orElse(null);
+    }
+
+    @Override
+    public User updateUser(User user, User existingUser) {
+        var userUpdate = repository.save(UserRepositoryMapper.userToUpdateToUserEntity(user,existingUser));
+        return UserRepositoryMapper.userEntityToUser(userUpdate);
     }
 }

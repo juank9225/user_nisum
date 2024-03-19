@@ -31,7 +31,7 @@ public class UserMapper {
         ).toList();
     }
 
-    public static UserResponseDTO userResponseDTOToUser(User user){
+    public static UserResponseDTO userToUserResponse(User user){
         var userResponseDTO = UserResponseDTO.builder()
                 .id(user.getId())
                 .name(user.getName())

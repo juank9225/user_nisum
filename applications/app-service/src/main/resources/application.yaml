@@ -18,6 +18,16 @@ spring:
     driverClassName: "org.h2.Driver"
   jpa:
     databasePlatform: "org.hibernate.dialect.H2Dialect"
+
+jwt:
+  secret: "xp7k/y5l11sP843RzDze/O6REfDlcoMq4mZWLlVNTaI="
+  subject: "nisum"
+  accesstokenvalidity: "3600000"
+
+regex:
+  password: ^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-zA-Z]).{8,}$
+  email: ^[A-Za-z0-9+_.-]+@(.+)$
+
 management:
   endpoints:
     web:

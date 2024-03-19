@@ -16,11 +16,5 @@ project(':model').projectDir = file('./domain/model')
 project(':usecase').projectDir = file('./domain/usecase')
 include ':jpa-repository'
 project(':jpa-repository').projectDir = file('./infrastructure/driven-adapters/jpa-repository')
-include ':user-controller'
-project(':user-controller').projectDir = file('./infrastructure/entry-points/user-controller')
-include ':user'
-project(':user').projectDir = file('./infrastructure/entry-points/user')
-include ':users'
-project(':users').projectDir = file('./infrastructure/entry-points/users')
 include ':api-rest'
 project(':api-rest').projectDir = file('./infrastructure/entry-points/api-rest')
