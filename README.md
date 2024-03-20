@@ -1,10 +1,80 @@
-# Proyecto Base Implementando Clean Architecture
+# Proyecto Creacion de Usuario - Implementando Clean Architecture
+
+## Descripcion de Requerimiento
+Desarrollar una aplicaciÃ³n que exponga una API RESTful de creaciÃ³n de usuarios.
+Todos los endpoints deben aceptar y retornar solamente JSON, inclusive para los mensajes de
+error.
+Todos los mensajes deben seguir el formato:
+``` json
+{"mensaje": "mensaje de error"}
+```
+## Registro
+El endpoint deberÃ¡ recibir un usuario con los campos "nombre", "correo",
+"contraseÃ±a", mÃ¡s un listado de objetos "telÃ©fono", respetando el siguiente
+formato:
+
+``` json
+{
+	"name":"Juan Rodriguez",
+	"email":"juan@rodriguez.org",
+	"password":"hunter2",
+	"phones":[
+		{
+			"number":"3104203522",
+			"cityCode":"1",
+			"countryCode":"57"
+		}
+	]
+}
+```
+- Responder el cÃ³digo de status HTTP adecuado.
+- En caso de Ã©xito, retornar el usuario y los siguientes campos:
+    - **id:** id del usuario (del banco de datos o un UUID).
+    - **created:** fecha de creaciÃ³n del usuario.
+    - **modified:** fecha de la Ãºltima actualizaciÃ³n de usuario.
+    - **last_login:** fecha del Ãºltimo ingreso (en caso de ser un nuevo usuario, va a coincidir con la fecha de creaciÃ³n).
+    - **token:** token de acceso de la API (puede ser UUID).
+    - **isActive:** indica si el usuario sigue habilitado dentro del sistema.
+- En caso de que el correo se encuentre registrado en la base de datos, deberÃ¡ retornar un mensaje de error "El correo ya se encuentra registrado".
+- El correo debe seguir una expresiÃ³n regular para validar que el formato sea el correcto (aaaaaaa@dominio.cl).
+- La clave debe seguir una expresiÃ³n regular para validar que el formato sea el correcto. (El valor de la expresiÃ³n regular debe ser configurable; la clave debe seguir el formato:
+- al menos un digito, longitud mayor o igual a 8 Y al menos una letra mayuscula)
+- El token deberÃ¡ ser persistido junto con el usuario.
+
+## Base de datos
+Base de datos en memoria H2 con persistencia JPA.
+
+## Diagrama de la Solucion
+![Diagrama de la Solucion](/applications/app-service/src/main/resources/imagen/diagrama.drawio.png)
+
+## Diagrama de Flujo - API Token
+![Diagrama de Flujo Token](/applications/app-service/src/main/resources/imagen/token.drawio%20.png)
+
+## Diagrama de Flujo - API Save User
+![Diagrama de Flujo Save User](/applications/app-service/src/main/resources/imagen/save.drawio.png)
+
+## Diagrama de Flujo - API Get User
+![Diagrama de Flujo Get User](/applications/app-service/src/main/resources/imagen/getUser.drawio.png)
+
+## Diagrama de Flujo - API Get Users
+![Diagrama de Flujo Get Users](/applications/app-service/src/main/resources/imagen/getUsers.drawio.png)
+
+## Diagrama de Flujo - API Update User
+![Diagrama de Flujo Update User](/applications/app-service/src/main/resources/imagen/updateUser.drawio.png)
+
+## Diagrama de Flujo - API Disable User
+![Diagrama de Flujo Disable User](/applications/app-service/src/main/resources/imagen/disableUser.drawio.png)
+
+# Manual de Explotacion
+Para consumir correctamente las Apis de creacion de usuario primero debe ejecutar la Api de generacion de Token
+y copiar el token generado en ella y pasarlo a las demas Apis por medio del Header en campo Token y luego consumir la 
+API deseada; el Token genrado tiene como duracion una hora para luego expirar.
+- Se adjunta Coleccion de postman para poder realizar el consumo de la API; Exporte y consuma cada una de ellas.
 
 ## Antes de Iniciar
+Empezaremos por explicar los diferentes componentes del proyectos y partiremos de los componentes externos, continuando con los componentes core de negocio (dominio) y por ultimo el inicio y configuracion de la aplicacion.
 
-Empezaremos por explicar los diferentes componentes del proyectos y partiremos de los componentes externos, continuando con los componentes core de negocio (dominio) y por último el inicio y configuración de la aplicación.
-
-Lee el artículo [Clean Architecture — Aislando los detalles](https://medium.com/bancolombia-tech/clean-architecture-aislando-los-detalles-4f9530f35d7a)
+Lee el articulo [Clean Architecture ï¿½ Aislando los detalles](https://medium.com/bancolombia-tech/clean-architecture-aislando-los-detalles-4f9530f35d7a)
 
 # Arquitectura
 
@@ -12,11 +82,11 @@ Lee el artículo [Clean Architecture — Aislando los detalles](https://medium.com/
 
 ## Domain
 
-Es el módulo más interno de la arquitectura, pertenece a la capa del dominio y encapsula la lógica y reglas del negocio mediante modelos y entidades del dominio.
+Es el modulo mas interno de la arquitectura, pertenece a la capa del dominio y encapsula la logica y reglas del negocio mediante modelos y entidades del dominio.
 
 ## Usecases
 
-Este módulo gradle perteneciente a la capa del dominio, implementa los casos de uso del sistema, define lógica de aplicación y reacciona a las invocaciones desde el módulo de entry points, orquestando los flujos hacia el módulo de entities.
+Este modulo gradle perteneciente a la capa del dominio, implementa los casos de uso del sistema, define logica de aplicacion y reacciona a las invocaciones desde el mï¿½dulo de entry points, orquestando los flujos hacia el modulo de entities.
 
 ## Infrastructure
 
@@ -24,9 +94,9 @@ Este módulo gradle perteneciente a la capa del dominio, implementa los casos de 
 
 En el apartado de helpers tendremos utilidades generales para los Driven Adapters y Entry Points.
 
-Estas utilidades no están arraigadas a objetos concretos, se realiza el uso de generics para modelar comportamientos
-genéricos de los diferentes objetos de persistencia que puedan existir, este tipo de implementaciones se realizan
-basadas en el patrón de diseño [Unit of Work y Repository](https://medium.com/@krzychukosobudzki/repository-design-pattern-bc490b256006)
+Estas utilidades no estan arraigadas a objetos concretos, se realiza el uso de generics para modelar comportamientos
+genaricos de los diferentes objetos de persistencia que puedan existir, este tipo de implementaciones se realizan
+basadas en el patron de diseÃ±o [Unit of Work y Repository](https://medium.com/@krzychukosobudzki/repository-design-pattern-bc490b256006)
 
 Estas clases no puede existir solas y debe heredarse su compartimiento en los **Driven Adapters**
 
@@ -38,10 +108,10 @@ interactuar.
 
 ### Entry Points
 
-Los entry points representan los puntos de entrada de la aplicación o el inicio de los flujos de negocio.
+Los entry points representan los puntos de entrada de la aplicacion o el inicio de los flujos de negocio.
 
 ## Application
 
-Este módulo es el más externo de la arquitectura, es el encargado de ensamblar los distintos módulos, resolver las dependencias y crear los beans de los casos de use (UseCases) de forma automática, inyectando en éstos instancias concretas de las dependencias declaradas. Además inicia la aplicación (es el único módulo del proyecto donde encontraremos la función “public static void main(String[] args)”.
+Este modulo es el mas externo de la arquitectura, es el encargado de ensamblar los distintos modulos, resolver las dependencias y crear los beans de los casos de use (UseCases) de forma automatica, inyectando en estos instancias concretas de las dependencias declaradas. Ademï¿½s inicia la aplicacion (es el unico modulo del proyecto donde encontraremos la funcion public static void main(String[] args).
 
 **Los beans de los casos de uso se disponibilizan automaticamente gracias a un '@ComponentScan' ubicado en esta capa.**
