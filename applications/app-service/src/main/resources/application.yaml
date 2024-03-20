@@ -18,6 +18,9 @@ spring:
     driverClassName: "org.h2.Driver"
   jpa:
     databasePlatform: "org.hibernate.dialect.H2Dialect"
+  sql:
+    init:
+      data-locations: classpath:import.sql
 
 jwt:
   secret: "xp7k/y5l11sP843RzDze/O6REfDlcoMq4mZWLlVNTaI="
