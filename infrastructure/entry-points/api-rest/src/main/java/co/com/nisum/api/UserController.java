@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/user/", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/user", produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 public class UserController {
 
@@ -36,7 +36,7 @@ public class UserController {
     @Autowired
     private Validations validations;
 
-    @PostMapping(path = "/save")
+    @PostMapping(path = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserResponseDTO> saveUser(@RequestBody UserRequestDTO user,
                                                     @RequestHeader("token") String token) {
         User response = null;
@@ -70,7 +70,7 @@ public class UserController {
         return new ResponseEntity<>(UserMapper.userToUserResponse(response), HttpStatus.OK);
     }
 
-    @PutMapping(path = "/update")
+    @PutMapping(path = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserResponseDTO> updateUser(@RequestBody UserRequestDTO user,
                                                     @RequestHeader("token") String token) {
         User response = null;
