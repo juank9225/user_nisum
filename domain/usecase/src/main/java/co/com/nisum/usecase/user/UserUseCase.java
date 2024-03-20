@@ -42,7 +42,7 @@ public class UserUseCase {
     }
 
     public User disableUser(String email){
-        User existingUser = getUser(email);
+        User existingUser = userGatewayRepository.getUserEmail(email);
         if (existingUser==null){
             throw new BadRequestException(EnumError.ERROR_404.getCodigo(),EnumError.ERROR_404.getMesage());
         }

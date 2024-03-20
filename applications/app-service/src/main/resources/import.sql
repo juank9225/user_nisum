@@ -1,0 +1,2 @@
+INSERT INTO user_aut (created,id,is_active,last_login,modified,name,password,token,id_email) values ('2024-03-19T02:20:32.964+00:00','fm880ea0-5636-44ee-8c59-0242ac140007',true,'2024-03-19T02:20:32.964+00:00','2024-03-19T02:20:32.964+00:00','Laura Mikel','Hunter111','396720f2-288d-42a1-bb0b-4db2493cf3cd','laura@mikel.org');
+INSERT INTO phones_users (city_code,country_code,user_email,number) values ('2','50','miguel@correa.org','123456789');
